@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCWebUI", "MVCWebUI\MVCWebUI.csproj", "{0F9642A2-E2B5-435C-BBC8-7A5C6DDF33EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCore", "AppCore\AppCore.csproj", "{7A694DF3-4B03-43E6-B137-CDF9689F1839}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppCore", "AppCore\AppCore.csproj", "{7A694DF3-4B03-43E6-B137-CDF9689F1839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{3FCAC598-ED96-49A0-BCE0-66FA8080865F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7A694DF3-4B03-43E6-B137-CDF9689F1839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A694DF3-4B03-43E6-B137-CDF9689F1839}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A694DF3-4B03-43E6-B137-CDF9689F1839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FCAC598-ED96-49A0-BCE0-66FA8080865F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FCAC598-ED96-49A0-BCE0-66FA8080865F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FCAC598-ED96-49A0-BCE0-66FA8080865F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FCAC598-ED96-49A0-BCE0-66FA8080865F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
