@@ -1,13 +1,15 @@
 ﻿#nullable disable
+
 using System.ComponentModel.DataAnnotations;
 using AppCore.Records.Bases;
 
-namespace DataAccess.Entities
+namespace Business.Models
 {
-    public class Product : RecordBase
+    public class ProductModel : RecordBase
     {
+        #region Entity'den kopyalanan özellikler
         [Required]
-        [StringLength (200)]
+        [StringLength(200)]
         public string Name { get; set; }
 
         [StringLength(500)]
@@ -20,8 +22,6 @@ namespace DataAccess.Entities
         public DateTime? ExpirationDate { get; set; }
 
         public int CategoryId { get; set; }
-
-        public Category Category { get; set; }
-
+        #endregion
     }
 }
