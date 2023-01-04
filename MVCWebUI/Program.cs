@@ -1,7 +1,25 @@
+using Business.Services;
+using DataAccess.Contexts;
+using DataAccess.Repostitories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+#region IoC Container (Inversion of Control)
+// Autofac, Ninject
+var connectionString = builder.Configuration.GetConnectionString("ETradeDb");
+builder.Services.AddDbContext<ETradeContext>(options => options.UseSqlServer(connectionString));
+
+// builder.Services.AddTransient<ProductRepoBase, ProductRepo>();   her enjeksiyonda yeni obje oluþturur
+// builder.Services.AddSingleton<ProductRepoBase, ProductRepo>();   statik obje kullanmaný saðlar
+builder.Services.AddScoped<ProductRepoBase, ProductRepo>(); // önemli
+
+builder.Services.AddScoped<IProductService, ProductService>();
+#endregion
 
 var app = builder.Build();
 
@@ -14,11 +32,19 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(); // wwwroot altýndaki dosyalarý kullanmayý saðlar
 
-app.UseRouting();
+app.UseRouting(); 
 
-app.UseAuthorization();
+app.UseAuthorization(); // yetki kontrolü
+
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapControllerRoute(
+	  name: "areas",
+	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+	);
+});
 
 app.MapControllerRoute(
     name: "default",

@@ -1,0 +1,43 @@
+﻿@model List<ProductModel>
+
+<h1>Products</h1>
+<hr />
+<table class="table">
+	<tr>
+		<th>
+			Name
+		</th>
+		<th>
+			Unit Price
+		</th>
+		<th>
+			Stock Amount
+		</th>
+		<th>
+			Expiration Date
+		</th>
+		<th>
+			Category
+		</th>
+	</tr>
+	@foreach (var product in Model)
+	{
+		<tr>
+			<td>
+				@product.Name 
+			</td>
+			<td>
+				@product.UnirPrice
+			</td>
+			<td>
+				@product.StockAmount
+			</td>
+			<td>
+				@product.ExpirationDate
+			</td>
+			<td>
+				@product.CategoryId
+			</td>
+		</tr>
+	}
+</table>

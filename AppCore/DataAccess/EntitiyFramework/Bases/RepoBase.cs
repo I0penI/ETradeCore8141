@@ -114,7 +114,7 @@ namespace AppCore.DataAccess.EntitiyFramework.Bases
             {
                 // exc.Message
                 // exc üzerinden loglama
-                throw;
+                throw exc;
             }
         }
 

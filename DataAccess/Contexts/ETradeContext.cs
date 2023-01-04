@@ -8,9 +8,17 @@ namespace DataAccess.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public ETradeContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer("server=.\\SQLEXPRESS;database=BA_ETradeCore7;user id=sa;password=sa;multipleactiveresultsets=true;trustservercertificate=true;");
+
         }
-    }
+
+		#region farklı yol (doğru olmayan)
+		//protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		//{
+		//    optionsBuilder.UseSqlServer("server=.\\SQLEXPRESS;database=BA_ETradeCore7;user id=sa;password=sa;multipleactiveresultsets=true;trustservercertificate=true;");
+		//}
+		#endregion
+	}
 }
