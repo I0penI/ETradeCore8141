@@ -2,7 +2,7 @@
 
 <h1>Products</h1>
 <hr />
-<table class="table">
+<table class="table table-striped">
 	<tr>
 		<th>
 			Name
@@ -27,16 +27,16 @@
 				@product.Name 
 			</td>
 			<td>
-				@product.UnirPrice
+				@product.UnitPriceDisplay
 			</td>
 			<td>
 				@product.StockAmount
 			</td>
 			<td>
-				@product.ExpirationDate
+				@product.ExpirationDateDisplay
 			</td>
 			<td>
-				@product.CategoryId
+				@product.CategoryNameDisplay
 			</td>
 		</tr>
 	}

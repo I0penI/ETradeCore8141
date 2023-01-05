@@ -1,4 +1,5 @@
-﻿using AppCore.Business.Services.Bases;
+﻿using System.Globalization;
+using AppCore.Business.Services.Bases;
 using AppCore.Results.Bases;
 using Business.Models;
 using DataAccess.Repostitories;
@@ -37,7 +38,7 @@ namespace Business.Services
 
         public IQueryable<ProductModel> Query()
         {
-            return _repo.Query().Select(p => new ProductModel()
+            return _repo.Query(p => p.Category).Select(p => new ProductModel()
             { // AutoMapper
                 CategoryId = p.CategoryId,
                 Description = p.Description,
@@ -46,8 +47,17 @@ namespace Business.Services
                 Id = p.Id,
                 Name = p.Name,
                 StockAmount = p.StockAmount,
-                UnirPrice = p.UnirPrice
-            });
+                UnitPrice = p.UnitPrice,
+                UnitPriceDisplay = p.UnitPrice.ToString("C2", new CultureInfo("en-US")), //tr-TR
+                ExpirationDateDisplay = p.ExpirationDate != null ? p.ExpirationDate.Value.ToString("MM/dd/yyyy", new CultureInfo("en-US")) : "",
+				//2.yol
+                //ExpirationDateDisplay = p.ExpirationDate.HasValue ? p.ExpirationDate.Value.ToString("MM/dd/yyyy", new CultureInfo("en-US")) : "",
+
+                CategoryNameDisplay = p.Category.Name
+
+
+			});
+
         }
 
         public Result Update(ProductModel model)

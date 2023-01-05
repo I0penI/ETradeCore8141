@@ -66,6 +66,7 @@ namespace AppCore.DataAccess.EntitiyFramework.Bases
         // _repoBase.Save();
         public virtual void Update(TEntity entity, bool save = true)
         {
+            entity.Guid = Guid.NewGuid().ToString();
             _dbContext.Set<TEntity>().Update(entity);
             if (save)
                 Save();

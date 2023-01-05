@@ -2,7 +2,6 @@ using Business.Services;
 using DataAccess.Contexts;
 using DataAccess.Repostitories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,10 +39,10 @@ app.UseAuthorization(); // yetki kontrolü
 
 app.UseEndpoints(endpoints =>
 {
-	endpoints.MapControllerRoute(
-	  name: "areas",
-	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-	);
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
 });
 
 app.MapControllerRoute(

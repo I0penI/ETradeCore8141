@@ -15,13 +15,20 @@ namespace Business.Models
         [StringLength(500)]
         public string Description { get; set; }
 
-        public double UnirPrice { get; set; }
+        public double UnitPrice { get; set; }
 
         public int StockAmount { get; set; }
 
         public DateTime? ExpirationDate { get; set; }
 
         public int CategoryId { get; set; }
+        #endregion
+
+        #region Entitiy Dışındaki Özelleştirmeler
+        public string UnitPriceDisplay { get; set; }
+
+        public string ExpirationDateDisplay { get; set; }
+        public string CategoryNameDisplay { get; set; }
         #endregion
     }
 }
