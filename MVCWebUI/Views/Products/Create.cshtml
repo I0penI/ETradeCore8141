@@ -1,0 +1,66 @@
+﻿@model ProductModel
+
+@{
+	ViewData["Title"] = "Create Product";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+@*<form action="/Products/Create" method="post">*@
+@*@using (Html.BeginForm("Create", "Products", FormMethod.Post))*@
+@using (Html.BeginForm())
+{
+    <!-- Name input -->
+    <div class="form-outline mb-4">
+        @*<label class="form-label" for="name">Name</label>*@
+        @Html.LabelFor(m => m.Name)
+        @*<input type="text" id="name" class="form-control" name="Name" />*@
+        @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+    </div>
+
+
+
+         <div class="form-outline mb-4">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description, new {@class = "form-control", rows = "4"})
+        </div>
+
+
+
+    <div class="form-outline mb-4">
+        @Html.LabelFor(m => m.UnitPrice)
+        @Html.TextBoxFor(m => m.UnitPrice, new {@class = "form-control"})
+    </div>
+
+    <div class="form-outline mb-4">
+        @Html.LabelFor(m => m.StockAmount)
+        @Html.TextBoxFor(m => m.StockAmount, new {@class = "form-control"})
+    </div>
+
+
+
+    <div class="form-outline mb-4">
+        @*<label class="form-label" for="name">Name</label>*@
+        @Html.LabelFor(m => m.ExpirationDate)
+        @*<input type="text" id="name" class="form-control" name="Name" />*@
+        @Html.TextBoxFor(m => m.ExpirationDate, new {@class = "form-control"})
+    </div>
+    
+
+ @*   <div class="form-outline mb4">
+        @Html.LabelFor(m => m.CategoryId)
+        @Html.DropDownListFor(m => m.CategoryId, null, new { @class = "form-select"})
+    </div>*@
+
+
+
+    @*
+        Description -> TextArea
+        UnitPrice -> Textbox
+        StockAmount -> TextBox
+        CategoryId -> DropDownList
+    *@
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-dark btn-block mb-4">Save</button>
+}
+@*</form>*@

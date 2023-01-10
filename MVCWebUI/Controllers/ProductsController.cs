@@ -17,5 +17,9 @@ namespace MVCWebUI.Controllers
             var products = _productService.Query().ToList();
             return View(products);
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }

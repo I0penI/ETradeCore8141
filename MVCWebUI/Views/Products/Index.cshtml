@@ -1,42 +1,61 @@
-﻿@model List<ProductModel>
+﻿@*@model List<ProductModel>*@
+@model IEnumerable<ProductModel>
 
-<h1>Products</h1>
+@*<a href="/Products/Create">Create New Products</a>*@
+@Html.ActionLink("Create New Product", "Create", "Products")
+
+@{
+	string title = "Products";
+	ViewData["Title"] = title;
+}
+
+<h1>@title</h1>
 <hr />
 <table class="table table-striped">
 	<tr>
 		<th>
-			Name
+			@*Name*@
+			@Html.DisplayNameFor(model => model.Name)
 		</th>
 		<th>
-			Unit Price
+			@*Unit Price*@
+			@Html.DisplayNameFor(model => model.UnitPriceDisplay) 
 		</th>
 		<th>
-			Stock Amount
+			@*Stock Amount*@
+			@Html.DisplayNameFor(model => model.StockAmount)
 		</th>
 		<th>
-			Expiration Date
+			@*Expiration Date*@
+			@Html.DisplayNameFor(model => model.ExpirationDateDisplay)
 		</th>
 		<th>
-			Category
+			@*Category*@
+			@Html.DisplayNameFor(model => model.CategoryNameDisplay)
 		</th>
 	</tr>
 	@foreach (var product in Model)
 	{
 		<tr>
 			<td>
-				@product.Name 
+				@*@product.Name*@
+				@Html.DisplayFor(model => product.Name)
 			</td>
 			<td>
-				@product.UnitPriceDisplay
+				@*@product.UnitPriceDisplay*@
+				@Html.DisplayFor(model => product.UnitPriceDisplay)
 			</td>
 			<td>
-				@product.StockAmount
+				@*@product.StockAmount*@
+				@Html.DisplayFor(model => product.StockAmount)
 			</td>
 			<td>
-				@product.ExpirationDateDisplay
+				@*@product.ExpirationDateDisplay*@
+				@Html.DisplayFor(model => product.ExpirationDateDisplay)
 			</td>
 			<td>
-				@product.CategoryNameDisplay
+				@*@product.CategoryNameDisplay*@
+				@Html.DisplayFor(model => product.CategoryNameDisplay)
 			</td>
 		</tr>
 	}
