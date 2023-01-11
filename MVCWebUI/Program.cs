@@ -16,8 +16,11 @@ builder.Services.AddDbContext<ETradeContext>(options => options.UseSqlServer(con
 // builder.Services.AddTransient<ProductRepoBase, ProductRepo>();   her enjeksiyonda yeni obje oluþturur
 // builder.Services.AddSingleton<ProductRepoBase, ProductRepo>();   statik obje kullanmaný saðlar
 builder.Services.AddScoped<ProductRepoBase, ProductRepo>(); // önemli
+builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>(); 
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 #endregion
 
 var app = builder.Build();

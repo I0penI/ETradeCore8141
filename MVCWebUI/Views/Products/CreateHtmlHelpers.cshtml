@@ -10,12 +10,15 @@
 @*@using (Html.BeginForm("Create", "Products", FormMethod.Post))*@
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary(false, null, new{@class ="errorred"})
+
     <!-- Name input -->
     <div class="form-outline mb-4">
         @*<label class="form-label" for="name">Name</label>*@
         @Html.LabelFor(m => m.Name)
         @*<input type="text" id="name" class="form-control" name="Name" />*@
         @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Name,null, new{@class ="text-danger"})
     </div>
 
 
@@ -23,6 +26,7 @@
          <div class="form-outline mb-4">
         @Html.LabelFor(m => m.Description)
         @Html.TextAreaFor(m => m.Description, new {@class = "form-control", rows = "4"})
+        @Html.ValidationMessageFor(m => m.Description,null, new{@class ="text-danger"})
         </div>
 
 
@@ -30,11 +34,13 @@
     <div class="form-outline mb-4">
         @Html.LabelFor(m => m.UnitPrice)
         @Html.TextBoxFor(m => m.UnitPrice, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.UnitPrice, null, new{@class ="text-danger"})
     </div>
 
     <div class="form-outline mb-4">
         @Html.LabelFor(m => m.StockAmount)
         @Html.TextBoxFor(m => m.StockAmount, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.StockAmount, null, new{@class ="text-danger"})
     </div>
 
 
@@ -47,10 +53,11 @@
     </div>
     
 
- @*   <div class="form-outline mb4">
+    <div class="form-outline mb4">
         @Html.LabelFor(m => m.CategoryId)
-        @Html.DropDownListFor(m => m.CategoryId, null, new { @class = "form-select"})
-    </div>*@
+        @Html.DropDownListFor(m => m.CategoryId, ViewBag.Categories as SelectList,"--Select--", new { @class = "form-select"})
+        @Html.ValidationMessageFor(m => m.CategoryId, null, new{@class ="text-danger"})
+    </div>
 
 
 
