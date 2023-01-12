@@ -2,7 +2,7 @@
 
 namespace AppCore.Results
 {
-    internal class ErrorResult : Result
+    public class ErrorResult : Result
     {
         public ErrorResult( string message) : base(false, message)
         {

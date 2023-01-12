@@ -11,6 +11,17 @@
 
 <h1>@title</h1>
 <hr />
+@if (TempData["Message"] is not null)
+{
+	if (TempData["Message"].ToString().EndsWith("!"))
+	{
+		<p class="text-danger">@TempData["Message"]</p>
+	}
+	else
+	{
+		<p class="text-success">@TempData["Message"]</p>
+	}
+}
 <table class="table table-striped">
 	<tr>
 		<th>

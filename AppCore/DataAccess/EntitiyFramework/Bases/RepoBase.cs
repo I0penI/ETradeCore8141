@@ -31,6 +31,12 @@ namespace AppCore.DataAccess.EntitiyFramework.Bases
         {
             return Query(entitiesToInclude).Where(predicate);
         }
+
+        public virtual bool Exists(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Query().Any(predicate);
+        }
+
         // -ADD-
         // Urun urun = new Urun {Adi = "ASUS" ...}
         // repoBase.Add(urun);

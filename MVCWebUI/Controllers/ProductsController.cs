@@ -1,4 +1,5 @@
-﻿using Business.Models;
+﻿using AppCore.Results.Bases;
+using Business.Models;
 using Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -35,6 +36,15 @@ namespace MVCWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
+                Result result = _productService.Add(product);
+                if (result.IsSuccessful)
+                {
+                    //return RedirectToAction("Index", "Products");
+                    //return RedirectToAction("Index");
+                    TempData["Message"]= result.Message;
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewData["Message"] = result.Message; // error
 
             }
             ViewBag.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
