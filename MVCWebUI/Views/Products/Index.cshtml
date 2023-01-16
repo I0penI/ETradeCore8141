@@ -44,6 +44,9 @@
 			@*Category*@
 			@Html.DisplayNameFor(model => model.CategoryNameDisplay)
 		</th>
+		<th>
+
+		</th>
 	</tr>
 	@foreach (var product in Model)
 	{
@@ -67,6 +70,10 @@
 			<td>
 				@*@product.CategoryNameDisplay*@
 				@Html.DisplayFor(model => product.CategoryNameDisplay)
+			</td>
+			<td>
+				@*@Html.ActionLink("Edit", "Edit", new { id = product.Id })*@
+				<a asp-action="Edit" asp-route-id="@product.Id">Edit</a>
 			</td>
 		</tr>
 	}
