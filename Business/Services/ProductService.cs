@@ -26,14 +26,14 @@ namespace Business.Services
         public Result Add(ProductModel model)
         {
             // 1. Yöntem
-            //Product existingProduct = _repo.Query().SingleOrDefault(p => p.Name.ToUpper() == model.Name.ToUpper().Trim());
+            //Product existingProduct = _repo.Query().SingleOrDefault(p => p.Name.ToLower() == model.Name.ToLower().Trim());
             //if (existingProduct is not null )
             //{
             //    return new ErrorResult("Product with same name exists!");
             //}
             // 2. Yöntem
-            //if (_repo.Query().Any(p => p.Name.ToUpper() == model.Name.ToUpper().Trim()))
-            if (_repo.Exists(p => p.Name.ToUpper() == model.Name.Trim()))
+            //if (_repo.Query().Any(p => p.Name.ToLower() == model.Name.ToLower().Trim()))
+            if (_repo.Exists(p => p.Name.ToLower() == model.Name.Trim()))
                 return new ErrorResult("Product with same name exists!");
 
             if (model.ExpirationDate.HasValue && model.ExpirationDate.Value <= DateTime.Today)
@@ -60,7 +60,9 @@ namespace Business.Services
 
         public Result Delete(int id)
         {
-            throw new NotImplementedException();
+            _repo.Delete(id);
+            //_repo.Delete(p => p.Id == id);
+            return new SuccessResult("Protuct deleted successfully.");
         }
 
         public void Dispose()
@@ -80,8 +82,8 @@ namespace Business.Services
                 Name = p.Name,
                 StockAmount = p.StockAmount,
                 UnitPrice = p.UnitPrice,
-                UnitPriceDisplay = p.UnitPrice.ToString("C2", new CultureInfo("en-US")), //tr-TR
-                ExpirationDateDisplay = p.ExpirationDate != null ? p.ExpirationDate.Value.ToString("MM/dd/yyyy", new CultureInfo("en-US")) : "",
+                UnitPriceDisplay = p.UnitPrice.ToString("C2"), //tr-TR
+                ExpirationDateDisplay = p.ExpirationDate != null ? p.ExpirationDate.Value.ToString("MM/dd/yyyy") : "",
                 //2.yol
                 //ExpirationDateDisplay = p.ExpirationDate.HasValue ? p.ExpirationDate.Value.ToString("MM/dd/yyyy", new CultureInfo("en-US")) : "",
 
@@ -94,7 +96,20 @@ namespace Business.Services
 
         public Result Update(ProductModel model)
         {
-            throw new NotImplementedException();
-        }
+            if (_repo.Exists(p => p.Name.ToLower() == model.Name.ToLower().Trim() && p.Id != model.Id))
+                return new ErrorResult("Product with same name exists!");
+			Product entity = new Product()
+			{
+                Id = model.Id,
+				CategoryId = model.CategoryId.Value,
+				Description = model.Description?.Trim(),
+				ExpirationDate = model.ExpirationDate,
+				Name = model.Name.Trim(),
+				StockAmount = model.StockAmount.Value,
+				UnitPrice = model.UnitPrice.Value
+			};
+            _repo.Update(entity); 
+            return new SuccessResult("Product updated successfully");
+		}
     }
 }

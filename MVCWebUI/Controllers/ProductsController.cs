@@ -55,10 +55,45 @@ namespace MVCWebUI.Controllers
 		{
 			var product = _productService.Query().SingleOrDefault(p => p.Id == id);
 			if (product is null)
-				return NotFound();
+			{
+				//return NotFound();
+				return View("_Error", "Product Not Found!");
+			}
+
 			ViewBag.CategoryId = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
 			return View(product);
+
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Edit(ProductModel product)
+		{
+			if (ModelState.IsValid)
+			{
+				var result = _productService.Update(product);
+				if (result.IsSuccessful)
+				{
+					TempData["Message"] = result.Message; // success
+					return RedirectToAction(nameof(Index));
+				}
+				ModelState.AddModelError("", result.Message); // error
+			}
+			ViewBag.CategoryId = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
+			return View(product);
+		}
+		public IActionResult Delete(int id)
+		{
+			var result = _productService.Delete(id);
+			TempData["Message"] = result.Message;
+			return RedirectToAction(nameof(Index));
+		}
+		public IActionResult Details(int id)
+		{
+			var product = _productService.Query().SingleOrDefault(p => p.Id == id);
+			if (product is null)
 			
+				return View("_Error", "Product Not Found!");
+			return View(product);
 		}
 	}
 }

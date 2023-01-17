@@ -54,7 +54,7 @@ namespace MVCWebUI.Areas.Database.Controllers
 					{
 						Name = "Monitor",
 						UnitPrice = 2500,
-						ExpirationDate = DateTime.Parse("19.05.2023"),
+						ExpirationDate = DateTime.Parse("05/19/2023"),
 						StockAmount = 20,
 						Description = "Computer peripheral"
 					}

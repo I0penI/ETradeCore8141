@@ -1,9 +1,28 @@
+﻿using System.Globalization;
 using Business.Services;
 using DataAccess.Contexts;
 using DataAccess.Repostitories;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Localization
+// Web uygulamasýnýn bölgesel ayarý aþaðýdaki þekilde tek seferde konfigüre edilerek tüm projenin bu ayarý kullanmasý saðlanabilir,
+// dolayýsýyla veri formatlama veya dönüþtürme gibi iþlemlerde her seferinde CultureInfo objesinin kullaným gereksinimi ortadan kalkar.
+// Bu þekilde sadece tek bir bölgesel ayar projede kullanýlabilir.
+List<CultureInfo> cultures = new List<CultureInfo>()
+{
+	new CultureInfo("en-US") // eðer uygulama Türkçe olacaksa CultureInfo constructor'ýnýn parametresini ("tr-TR") yapmak yeterlidir.
+};
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+	options.DefaultRequestCulture = new RequestCulture(cultures.FirstOrDefault().Name);
+	options.SupportedCultures = cultures;
+	options.SupportedUICultures = cultures;
+});
+#endregion
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -13,9 +32,9 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("ETradeDb");
 builder.Services.AddDbContext<ETradeContext>(options => options.UseSqlServer(connectionString));
 
-// builder.Services.AddTransient<ProductRepoBase, ProductRepo>();   her enjeksiyonda yeni obje olu�turur
-// builder.Services.AddSingleton<ProductRepoBase, ProductRepo>();   statik obje kullanman� sa�lar
-builder.Services.AddScoped<ProductRepoBase, ProductRepo>(); // �nemli
+// builder.Services.AddTransient<ProductRepoBase, ProductRepo>();   her enjeksiyonda yeni obje oluşturur
+// builder.Services.AddSingleton<ProductRepoBase, ProductRepo>();   statik obje kullanmanı sağlar
+builder.Services.AddScoped<ProductRepoBase, ProductRepo>(); // önemli
 builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>(); 
 
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -24,6 +43,15 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 #endregion
 
 var app = builder.Build();
+
+#region Localization
+app.UseRequestLocalization(new RequestLocalizationOptions()
+{
+	DefaultRequestCulture = new RequestCulture(cultures.FirstOrDefault().Name),
+	SupportedCultures = cultures,
+	SupportedUICultures = cultures,
+});
+#endregion
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,11 +62,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // wwwroot alt�ndaki dosyalar� kullanmay� sa�lar
+app.UseStaticFiles(); // wwwroot altındaki dosyaları kullanmayı sağlar
 
 app.UseRouting(); 
 
-app.UseAuthorization(); // yetki kontrol�
+app.UseAuthorization(); // yetki kontrolü
 
 app.UseEndpoints(endpoints =>
 {
