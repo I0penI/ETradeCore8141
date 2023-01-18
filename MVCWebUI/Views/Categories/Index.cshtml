@@ -2,14 +2,25 @@
 @*Model namespace using directive should be added to _ViewImports.cshtml.*@
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Category</a>
 </p>
+@if (TempData["Message"] is not null)
+{
+	if (TempData["Message"].ToString().EndsWith("!"))
+	{
+		<p class="text-danger">@TempData["Message"]</p>
+	}
+	else
+	{
+		<p class="text-success">@TempData["Message"]</p>
+	}
+}
 <table class="table">
     <thead>
         <tr>
@@ -19,9 +30,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Guid)
-            </th>
+			<th>
+				@Html.DisplayNameFor(model => model.ProductCountDisplay)
+			</th>
+           
             <th></th>
         </tr>
     </thead>
@@ -35,7 +47,7 @@
 						@Html.DisplayFor(modelItem => item.Description)
 					</td>
 					<td>
-						@Html.DisplayFor(modelItem => item.Guid)
+						@Html.DisplayFor(modelItem => item.ProductCountDisplay)
 					</td>
 					<td>
 						<a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;

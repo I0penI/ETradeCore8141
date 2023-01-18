@@ -18,17 +18,17 @@ namespace MVCWebUI.Controllers
         // GET: Categories
         public IActionResult Index()
         {
-            List<CategoryModel> categoryList = null; // TODO: Add get list service logic here
+            List<CategoryModel> categoryList = _categoryService.Query().ToList(); // TODO: Add get list service logic here
             return View(categoryList);
         }
 
         // GET: Categories/Details/5
         public IActionResult Details(int id)
         {
-            CategoryModel category = null; // TODO: Add get item service logic here
+            CategoryModel category = _categoryService.Query().SingleOrDefault(c => c.Id == id); // TODO: Add get item service logic here
             if (category == null)
             {
-                return NotFound();
+                return View("_Error", "Category Not Found!");
             }
             return View(category);
         }
@@ -37,7 +37,11 @@ namespace MVCWebUI.Controllers
         public IActionResult Create()
         {
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            return View();
+            CategoryModel model = new CategoryModel()
+            {
+                Id = 0
+            };
+            return View(model);
         }
 
         // POST: Categories/Create
@@ -49,8 +53,13 @@ namespace MVCWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: Add insert service logic here
-                return RedirectToAction(nameof(Index));
+                var result = _categoryService.Add(category);
+                if (result.IsSuccessful)
+                {
+                    TempData["Message"] = result.Message;
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View(category);
@@ -59,10 +68,10 @@ namespace MVCWebUI.Controllers
         // GET: Categories/Edit/5
         public IActionResult Edit(int id)
         {
-            CategoryModel category = null; // TODO: Add get item service logic here
+            CategoryModel category = _categoryService.Query().SingleOrDefault(c => c.Id == id); // TODO: Add get item service logic here
             if (category == null)
             {
-                return NotFound();
+                return View("_Error", "Category Not Found!");
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View(category);
@@ -77,8 +86,13 @@ namespace MVCWebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: Add update service logic here
-                return RedirectToAction(nameof(Index));
+                var result = _categoryService.Update(category);
+                if (result.IsSuccessful)
+                {
+                    TempData["Message"] = result.Message;
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View(category);
@@ -87,10 +101,10 @@ namespace MVCWebUI.Controllers
         // GET: Categories/Delete/5
         public IActionResult Delete(int id)
         {
-            CategoryModel category = null; // TODO: Add get item service logic here
+            CategoryModel category = _categoryService.Query().SingleOrDefault(c => c.Id == id); // TODO: Add get item service logic here
             if (category == null)
             {
-                return NotFound();
+                return View("_Error", "Category Not Found!");
             }
             return View(category);
         }
@@ -100,8 +114,9 @@ namespace MVCWebUI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            // TODO: Add delete service logic here
+            var result = _categoryService.Delete(id);
+            TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
         }
-	}
+    }
 }
