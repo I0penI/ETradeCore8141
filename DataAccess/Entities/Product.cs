@@ -23,5 +23,7 @@ namespace DataAccess.Entities
 
         public Category Category { get; set; }
 
+        public List<ProductStore> ProductStores { get; set; }
+
     }
 }

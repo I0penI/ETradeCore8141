@@ -22,63 +22,103 @@
 		<p class="text-success">@TempData["Message"]</p>
 	}
 }
-<table class="table table-striped">
-	<tr>
-		<th>
-			@*Name*@
-			@Html.DisplayNameFor(model => model.Name)
-		</th>
-		<th>
-			@*Unit Price*@
-			@Html.DisplayNameFor(model => model.UnitPriceDisplay) 
-		</th>
-		<th>
-			@*Stock Amount*@
-			@Html.DisplayNameFor(model => model.StockAmount)
-		</th>
-		<th>
-			@*Expiration Date*@
-			@Html.DisplayNameFor(model => model.ExpirationDateDisplay)
-		</th>
-		<th>
-			@*Category*@
-			@Html.DisplayNameFor(model => model.CategoryNameDisplay)
-		</th>
-		<th>
-
-		</th>
-	</tr>
-	@foreach (var product in Model)
-	{
+<table class="display" style="width:100%;" id="datatable">
+	<thead>
 		<tr>
-			<td>
-				@*@product.Name*@
-				@Html.DisplayFor(model => product.Name)
-			</td>
-			<td>
-				@*@product.UnitPriceDisplay*@
-				@Html.DisplayFor(model => product.UnitPriceDisplay)
-			</td>
-			<td>
-				@*@product.StockAmount*@
-				@Html.DisplayFor(model => product.StockAmount)
-			</td>
-			<td>
-				@*@product.ExpirationDateDisplay*@
-				@Html.DisplayFor(model => product.ExpirationDateDisplay)
-			</td>
-			<td>
-				@*@product.CategoryNameDisplay*@
-				@Html.DisplayFor(model => product.CategoryNameDisplay)
-			</td>
-			<td>
-				<a asp-action="Details" asp-route-id="@product.Id">Details</a>
+			<th>
+				@*Name*@
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@*Unit Price*@
+				@Html.DisplayNameFor(model => model.UnitPriceDisplay)
+			</th>
+			<th>
+				@*Stock Amount*@
+				@Html.DisplayNameFor(model => model.StockAmount)
+			</th>
+			<th>
+				@*Expiration Date*@
+				@Html.DisplayNameFor(model => model.ExpirationDateDisplay)
+			</th>
+			<th>
+				@*Category*@
+				@Html.DisplayNameFor(model => model.CategoryNameDisplay)
+			</th>
+			<th>
 
-				@*@Html.ActionLink("Edit", "Edit", new { id = product.Id })*@
-				<a asp-action="Edit" asp-route-id="@product.Id">Edit</a>
-
-				<a asp-action="Delete" asp-route-id="@product.Id">Delete</a>
-			</td>
+			</th>
 		</tr>
-	}
+	</thead>
+
+	<tbody>
+		@foreach (var product in Model)
+		{
+			<tr>
+				<td>
+					@*@product.Name*@
+					@Html.DisplayFor(model => product.Name)
+				</td>
+				<td>
+					@*@product.UnitPriceDisplay*@
+					@Html.DisplayFor(model => product.UnitPriceDisplay)
+				</td>
+				<td>
+					@*@product.StockAmount*@
+					@Html.DisplayFor(model => product.StockAmount)
+				</td>
+				<td>
+					@*@product.ExpirationDateDisplay*@
+					@Html.DisplayFor(model => product.ExpirationDateDisplay)
+				</td>
+				<td>
+					@*@product.CategoryNameDisplay*@
+					@Html.DisplayFor(model => product.CategoryNameDisplay)
+				</td>
+				<td>
+					<a asp-action="Details" asp-route-id="@product.Id">Details</a>
+
+					@*@Html.ActionLink("Edit", "Edit", new { id = product.Id })*@
+					<a asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+
+					@*<a asp-action="Delete" asp-route-id="@product.Id">Delete</a>*@
+					<a href="#" onclick="deleteProduct(@product.Id);">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+
 </table>
+
+@section Scripts{
+	<link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+	<script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+
+	<link href="~/lib/alertifyjs/css/alertify.min.css" rel="stylesheet" />
+	<script src="~/lib/alertifyjs/alertify.min.js"></script>
+	<script>
+		//$(document).ready(function(){
+		$(function () {
+			$('#datatable').DataTable({
+				language: {
+					//url: "/json/datatablesTurkish.json"
+				}
+			});
+
+
+		});
+		function deleteProduct(id) {
+			alertify.confirm(
+				"Warning!",
+				"Are you sure want to delete this product?",
+				function () { //ok
+					window.location.href = "/Products/Delete/" + id;
+				},
+				function () {
+					//alertify.error("Delete canceled");
+				}
+			).set('labels', { ok: "Yes", cancel: 'No' });
+
+		}
+	</script>
+}

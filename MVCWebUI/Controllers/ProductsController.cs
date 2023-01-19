@@ -10,11 +10,13 @@ namespace MVCWebUI.Controllers
 	{
 		private readonly IProductService _productService;
 		private readonly ICategoryService _categoryService;
+		private readonly IStoreService _storeService;
 
-		public ProductsController(IProductService productService, ICategoryService categoryService)
+		public ProductsController(IProductService productService, ICategoryService categoryService, IStoreService storeService)
 		{
 			_productService = productService;
 			_categoryService = categoryService;
+			_storeService = storeService;
 		}
 
 		public IActionResult Index()

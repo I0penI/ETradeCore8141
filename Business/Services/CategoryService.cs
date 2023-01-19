@@ -31,7 +31,7 @@ namespace Business.Services
                 Description = model.Description?.Trim(),
             };
             _categoryRepo.Add(entity);
-            return new SuccessResult("Category added successfully.");
+            return new SuccessResult("Category Added Successfully.");
         }
 
         public Result Delete(int id)
@@ -70,7 +70,7 @@ namespace Business.Services
         {
             if(_categoryRepo.Exists(c => c.Name.ToLower() == model.Name.ToLower().Trim() && c.Id != model.Id ))
             
-                return new ErrorResult("Category with same name exists");
+                return new ErrorResult("Category With Same Name Exists"); 
                 Category entity = new Category()
                 {
                     Id = model.Id,
@@ -78,7 +78,7 @@ namespace Business.Services
                     Description = model.Description?.Trim(),
                 };
                 _categoryRepo.Update(entity);
-                return new SuccessResult("Category updated successfully.");
+                return new SuccessResult("Category Updated Successfully.");
             
         }
     }

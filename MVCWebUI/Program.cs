@@ -35,10 +35,12 @@ builder.Services.AddDbContext<ETradeContext>(options => options.UseSqlServer(con
 // builder.Services.AddTransient<ProductRepoBase, ProductRepo>();   her enjeksiyonda yeni obje oluşturur
 // builder.Services.AddSingleton<ProductRepoBase, ProductRepo>();   statik obje kullanmanı sağlar
 builder.Services.AddScoped<ProductRepoBase, ProductRepo>(); // önemli
-builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>(); 
+builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>();
+builder.Services.AddScoped<StoreRepoBase, StoreRepo>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IStoreService, StoreService>();
 
 #endregion
 
@@ -56,28 +58,28 @@ app.UseRequestLocalization(new RequestLocalizationOptions()
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles(); // wwwroot altındaki dosyaları kullanmayı sağlar
 
-app.UseRouting(); 
+app.UseRouting();
 
 app.UseAuthorization(); // yetki kontrolü
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-      name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    );
+	endpoints.MapControllerRoute(
+	  name: "areas",
+	  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+	);
 });
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
