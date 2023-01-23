@@ -38,9 +38,14 @@ builder.Services.AddScoped<ProductRepoBase, ProductRepo>(); // önemli
 builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>();
 builder.Services.AddScoped<StoreRepoBase, StoreRepo>();
 
+builder.Services.AddScoped<UserRepoBase, UserRepo>();
+
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 #endregion
 

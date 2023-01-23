@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using AppCore.Business.Services.Bases;
+﻿using AppCore.Business.Services.Bases;
 using AppCore.Results;
 using AppCore.Results.Bases;
 using Business.Models;
@@ -52,7 +51,12 @@ namespace Business.Services
                 ExpirationDate = model.ExpirationDate,
                 Name = model.Name.Trim(),
                 StockAmount = model.StockAmount.Value,
-                UnitPrice = model.UnitPrice.Value
+                UnitPrice = model.UnitPrice.Value,
+
+                ProductStores = model.StoreIds?.Select(sId => new ProductStore()
+                {
+                    StoreId = sId,
+                }).ToList()
             };
             _repo.Add(entity);
             return new SuccessResult("Product added successfully.");
@@ -60,6 +64,8 @@ namespace Business.Services
 
         public Result Delete(int id)
         {
+            _repo.Delete<ProductStore>(ps => ps.ProductId == id);
+
             _repo.Delete(id);
             //_repo.Delete(p => p.Id == id);
             return new SuccessResult("Protuct deleted successfully.");
@@ -72,7 +78,7 @@ namespace Business.Services
 
         public IQueryable<ProductModel> Query()
         {
-            return _repo.Query(p => p.Category).Select(p => new ProductModel()
+            return _repo.Query(p => p.Category, p => p.ProductStores).Select(p => new ProductModel()
             { // AutoMapper
                 CategoryId = p.CategoryId,
                 Description = p.Description,
@@ -87,9 +93,11 @@ namespace Business.Services
                 //2.yol
                 //ExpirationDateDisplay = p.ExpirationDate.HasValue ? p.ExpirationDate.Value.ToString("MM/dd/yyyy", new CultureInfo("en-US")) : "",
 
-                CategoryNameDisplay = p.Category.Name
+                CategoryNameDisplay = p.Category.Name,
 
+                StoreIds = p.ProductStores.Select(ps => ps.StoreId).ToList(),
 
+                StoreNamesDisplay = string.Join("<br />", p.ProductStores.Select(ps => ps.Store.Name))
             });
 
         }
@@ -98,6 +106,10 @@ namespace Business.Services
         {
             if (_repo.Exists(p => p.Name.ToLower() == model.Name.ToLower().Trim() && p.Id != model.Id))
                 return new ErrorResult("Product with same name exists!");
+
+
+            _repo.Delete<ProductStore>(ps => ps.ProductId == model.Id);
+
 			Product entity = new Product()
 			{
                 Id = model.Id,
@@ -106,7 +118,13 @@ namespace Business.Services
 				ExpirationDate = model.ExpirationDate,
 				Name = model.Name.Trim(),
 				StockAmount = model.StockAmount.Value,
-				UnitPrice = model.UnitPrice.Value
+				UnitPrice = model.UnitPrice.Value,
+
+                ProductStores = model.StoreIds?.Select(sId => new ProductStore()
+                {
+                    StoreId = sId
+                }).ToList(),
+                
 			};
             _repo.Update(entity); 
             return new SuccessResult("Product updated successfully");

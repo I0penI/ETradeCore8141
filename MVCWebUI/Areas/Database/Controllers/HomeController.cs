@@ -2,6 +2,7 @@
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MVCWebUI.Areas.Database.Controllers
 {
@@ -22,6 +23,17 @@ namespace MVCWebUI.Areas.Database.Controllers
 
 				var categories = _db.Categories.ToList();
 				_db.Categories.RemoveRange(categories);
+
+				var users = _db.Users.ToList();
+				_db.Users.RemoveRange(users);
+
+				var roles = _db.Roles.ToList();
+				_db.Roles.RemoveRange(roles);
+
+				if(roles.Count > 0)
+				{
+					_db.Database.ExecuteSqlRaw("dbcc CHECKIDENT('Roles', RESEDED, 0 )");//rol tabllosundaki kayıtlar silinince id 1 den başlar
+				}
 
 				_db.Categories.Add(new Category()
 				{
@@ -87,6 +99,33 @@ namespace MVCWebUI.Areas.Database.Controllers
 						StockAmount = 40
 					}
 				}
+				});
+
+				_db.Roles.Add(new Role()
+				{
+					Name = "Admin",
+					Users = new List<User>()
+					{
+						new User()
+						{
+							IsActive = true,
+							Password = "ali",
+							UserName = "ali",
+						}
+					}
+				});
+				_db.Roles.Add(new Role()
+				{
+					Name = "User",
+					Users = new List<User>()
+					{
+						new User()
+						{
+							IsActive = true,
+							UserName = "xbearx",
+							Password = "xbearx"
+						}
+					}
 				});
 				_db.SaveChanges();
 				return Content("<label style=\"color:darkgreen;\"><b>Database seed successful.<b></label>", "text/html", Encoding.UTF8);

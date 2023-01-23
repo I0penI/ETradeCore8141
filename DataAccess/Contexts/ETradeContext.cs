@@ -9,7 +9,8 @@ namespace DataAccess.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<ProductStore> ProductStores { get; set; }
-
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public ETradeContext(DbContextOptions options) : base(options)
         {

@@ -47,6 +47,12 @@
         <dd class="col-10">
             @Html.DisplayFor(model => model.CategoryNameDisplay)
         </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.StoreNamesDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.Raw(Model.StoreNamesDisplay)
+        </dd>
     </dl>
 </div>
 <div>

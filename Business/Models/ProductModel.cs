@@ -63,6 +63,12 @@ namespace Business.Models
 
 		[DisplayName("Category")]
 		public string CategoryNameDisplay { get; set; }
+
+        [DisplayName("Stores")]
+        public List<int> StoreIds { get; set; }
+
+        [DisplayName("Stores")]
+        public string StoreNamesDisplay { get; set; }
         #endregion
     }
 }

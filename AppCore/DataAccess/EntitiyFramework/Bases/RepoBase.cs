@@ -89,6 +89,14 @@ namespace AppCore.DataAccess.EntitiyFramework.Bases
                 Save();
         }
 
+        public virtual void Delete<TRelationalEntity>(Expression<Func<TRelationalEntity, bool>> predicate, bool save = false)where TRelationalEntity : class, new()
+        {
+            var relationalEntities =  _dbContext.Set<TRelationalEntity>().Where(predicate).ToList();
+            _dbContext.Set<TRelationalEntity>().RemoveRange(relationalEntities);
+            if (save)
+                Save();
+        }
+
         // _repoBase.Delete(1);
         public virtual void Delete(int id, bool save = true)
         {

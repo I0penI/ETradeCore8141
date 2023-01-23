@@ -1,6 +1,7 @@
 ﻿using AppCore.Results.Bases;
 using Business.Models;
 using Business.Services;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -29,6 +30,7 @@ namespace MVCWebUI.Controllers
 		public IActionResult Create()
 		{
 			ViewBag.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name");
+			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name");
 			return View();
 		}
 
@@ -50,7 +52,8 @@ namespace MVCWebUI.Controllers
 
 			}
 			ViewBag.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
-			return View(product);
+			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name", product.StoreIds);
+			return View();
 		}
 
 		public IActionResult Edit(int id) // controller/action/id?
@@ -63,6 +66,7 @@ namespace MVCWebUI.Controllers
 			}
 
 			ViewBag.CategoryId = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
+			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name", product.StoreIds);
 			return View(product);
 
 		}
@@ -81,6 +85,7 @@ namespace MVCWebUI.Controllers
 				ModelState.AddModelError("", result.Message); // error
 			}
 			ViewBag.CategoryId = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
+			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name", product.StoreIds);
 			return View(product);
 		}
 		public IActionResult Delete(int id)

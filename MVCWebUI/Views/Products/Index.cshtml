@@ -46,6 +46,10 @@
 				@Html.DisplayNameFor(model => model.CategoryNameDisplay)
 			</th>
 			<th>
+				@*Category*@
+				@Html.DisplayNameFor(model => model.StoreNamesDisplay)
+			</th>
+			<th>
 
 			</th>
 		</tr>
@@ -75,6 +79,10 @@
 					@*@product.CategoryNameDisplay*@
 					@Html.DisplayFor(model => product.CategoryNameDisplay)
 				</td>
+				<th>
+					@*Category*@
+					@Html.Raw(product.StoreNamesDisplay)
+				</th>
 				<td>
 					<a asp-action="Details" asp-route-id="@product.Id">Details</a>
 
