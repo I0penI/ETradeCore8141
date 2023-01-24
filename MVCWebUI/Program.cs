@@ -2,6 +2,7 @@
 using Business.Services;
 using DataAccess.Contexts;
 using DataAccess.Repostitories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,17 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+#region Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(config =>
+	{
+		config.LoginPath = "/Account/Users/Login";
+		config.AccessDeniedPath = "/Account/Users/AccessDenied";
+		config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+		config.SlidingExpiration = true;
+	});
+#endregion
 
 #region IoC Container (Inversion of Control)
 // Autofac, Ninject
@@ -72,6 +84,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles(); // wwwroot altındaki dosyaları kullanmayı sağlar
 
 app.UseRouting();
+
+#region  Authentication
+app.UseAuthentication();
+#endregion
 
 app.UseAuthorization(); // yetki kontrolü
 

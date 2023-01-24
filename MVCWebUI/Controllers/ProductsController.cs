@@ -1,12 +1,13 @@
 ﻿using AppCore.Results.Bases;
 using Business.Models;
 using Business.Services;
-using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MVCWebUI.Controllers
 {
+	[Authorize]
 	public class ProductsController : Controller
 	{
 		private readonly IProductService _productService;
@@ -20,13 +21,15 @@ namespace MVCWebUI.Controllers
 			_storeService = storeService;
 		}
 
+		[AllowAnonymous]
 		public IActionResult Index()
 		{
 			var products = _productService.Query().ToList();
 			return View(products);
 		}
 
-		[HttpGet] // yazmaya gerek yok default olarak get geliyor 
+		//[HttpGet]  yazmaya gerek yok default olarak get geliyor 
+		[Authorize(Roles = "Admin")]
 		public IActionResult Create()
 		{
 			ViewBag.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name");
@@ -35,6 +38,7 @@ namespace MVCWebUI.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin")]
 		// public IActionResult Create(string Name, string Description, double UnitPrice, int StockAmount, DateTime? ExpirationDate, int CategoryId ) 
 		public IActionResult Create(ProductModel product)
 		{
@@ -55,7 +59,7 @@ namespace MVCWebUI.Controllers
 			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name", product.StoreIds);
 			return View();
 		}
-
+		[Authorize(Roles = "Admin")]
 		public IActionResult Edit(int id) // controller/action/id?
 		{
 			var product = _productService.Query().SingleOrDefault(p => p.Id == id);
@@ -72,6 +76,7 @@ namespace MVCWebUI.Controllers
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Edit(ProductModel product)
 		{
 			if (ModelState.IsValid)
@@ -88,8 +93,12 @@ namespace MVCWebUI.Controllers
 			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name", product.StoreIds);
 			return View(product);
 		}
+		
 		public IActionResult Delete(int id)
 		{
+			//if (!(User.Identity.IsAuthenticated && User.IsInRole("Admin"))) 1. yol
+			if (!User.IsInRole("Admin")) // 2. yol
+				return RedirectToAction("Login", "Users", new { area = "Account" });
 			var result = _productService.Delete(id);
 			TempData["Message"] = result.Message;
 			return RedirectToAction(nameof(Index));

@@ -30,6 +30,7 @@ namespace Business.Services
                 Password = model.Password,
                 IsActive = model.IsActive,
                 RoleId = model.RoleId,
+                
             };
             _userRepo.Add(entity);
             return new SuccessResult();
@@ -47,7 +48,17 @@ namespace Business.Services
 
         public IQueryable<UserModel> Query()
         {
-            throw new NotImplementedException();
+            return _userRepo.Query(u => u.Role).Select(u => new UserModel
+            {
+                Guid = u.Guid,
+                UserName = u.UserName,
+                Password = u.Password,
+                IsActive = u.IsActive,
+                RoleId = u.RoleId,
+                Id = u.Id,
+                RoleName = u.Role.Name
+                
+            });
         }
 
         public Result Update(UserModel model)

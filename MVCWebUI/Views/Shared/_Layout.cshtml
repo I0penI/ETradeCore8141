@@ -36,9 +36,30 @@
 
                     <div class="navbar-text">
                         <ul class="navbar-nav me-auto">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                
+                           
                             <li class="nav-item">
                             <a class="nav-link text-info" asp-area="Account" asp-controller="Users" asp-action="Register">Register</a>
                         </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-info" asp-area="Account" asp-controller="Users" asp-action="Login">Login</a>
+                                </li>
+                            }
+                            else
+                            {
+                                
+                            
+                            <li class="nav-item">
+                                @*<span class="badge bg-info text-black mt-2" >@User.Identity.Name</span>*@
+                                <span class="badge bg-info text-black" style="margin-top:11px;" >@User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-info" asp-area="Account" asp-controller="Users" asp-action="Logout">Logout</a>
+                            </li>
+                            }
+
                         </ul>
                     </div>
 

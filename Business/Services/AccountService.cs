@@ -1,4 +1,5 @@
-﻿using AppCore.Results.Bases;
+﻿using AppCore.Results;
+using AppCore.Results.Bases;
 using Business.Models;
 using DataAccess.Enums;
 using System;
@@ -12,7 +13,7 @@ namespace Business.Services
 
     public interface IAccountService 
     {
-        // Result Login(AccountLoginModel accountLoginModel, UserModel userResultModel);
+        Result Login(AccountLoginModel accountLoginModel, UserModel userResultModel);
         Result Register(AccountRegisterModel accountRegisterModel);
     }
     public class AccountService : IAccountService
@@ -25,7 +26,20 @@ namespace Business.Services
             _userService = userService;
         }
 
-        public Result Register(AccountRegisterModel accountRegisterModel)
+		public Result Login(AccountLoginModel accountLoginModel, UserModel userResultModel)
+		{
+			UserModel existingUser =_userService.Query().SingleOrDefault(u => u.UserName== accountLoginModel.UserName && u.Password == accountLoginModel.Password && u.IsActive);
+            if (existingUser is null)
+                return new ErrorResult("Invalid username and password");
+            userResultModel.UserName = existingUser.UserName;
+            userResultModel.RoleName = existingUser.RoleName;
+            return new SuccessResult();
+            
+
+            
+		}
+
+		public Result Register(AccountRegisterModel accountRegisterModel)
         {
             UserModel userModel = new UserModel()
             {

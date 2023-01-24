@@ -10,9 +10,11 @@ using DataAccess.Contexts;
 using DataAccess.Entities;
 using Business.Services;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVCWebUI.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class StoresController : Controller
 	{
 		// Add service injections here

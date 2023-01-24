@@ -32,7 +32,7 @@ namespace MVCWebUI.Areas.Database.Controllers
 
 				if(roles.Count > 0)
 				{
-					_db.Database.ExecuteSqlRaw("dbcc CHECKIDENT('Roles', RESEDED, 0 )");//rol tabllosundaki kayıtlar silinince id 1 den başlar
+					_db.Database.ExecuteSqlRaw("dbcc CHECKIDENT('Roles', RESEED, 0 )");//rol tabllosundaki kayıtlar silinince id 1 den başlar
 				}
 
 				_db.Categories.Add(new Category()

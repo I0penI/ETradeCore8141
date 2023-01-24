@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using Business.Models;
 using Business.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MVCWebUI.Controllers
@@ -15,7 +16,7 @@ namespace MVCWebUI.Controllers
 			_categoryService = categoryService;
 		}
 
-		// GET: Categories
+		// GET: Categories		
 		public IActionResult Index()
 		{
 			List<CategoryModel> categoryList = _categoryService.Query().ToList(); // TODO: Add get list service logic here
@@ -23,6 +24,7 @@ namespace MVCWebUI.Controllers
 		}
 
 		// GET: Categories/Details/5
+		[Authorize]
 		public IActionResult Details(int id)
 		{
 			CategoryModel category = _categoryService.Query().SingleOrDefault(c => c.Id == id); // TODO: Add get item service logic here
@@ -34,6 +36,7 @@ namespace MVCWebUI.Controllers
 		}
 
 		// GET: Categories/Create
+		[Authorize(Roles = "Admin")]
 		public IActionResult Create()
 		{
 			// Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
@@ -49,6 +52,7 @@ namespace MVCWebUI.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Create(CategoryModel category)
 		{
 			if (ModelState.IsValid)
@@ -66,6 +70,7 @@ namespace MVCWebUI.Controllers
 		}
 
 		// GET: Categories/Edit/5
+		[Authorize(Roles = "Admin")]
 		public IActionResult Edit(int id)
 		{
 			CategoryModel category = _categoryService.Query().SingleOrDefault(c => c.Id == id); // TODO: Add get item service logic here
@@ -82,6 +87,7 @@ namespace MVCWebUI.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Edit(CategoryModel category)
 		{
 			if (ModelState.IsValid)
@@ -100,6 +106,7 @@ namespace MVCWebUI.Controllers
 		}
 
 		// GET: Categories/Delete/5
+		[Authorize(Roles = "Admin")]
 		public IActionResult Delete(int id)
 		{
 			CategoryModel category = _categoryService.Query().SingleOrDefault(c => c.Id == id); // TODO: Add get item service logic here
@@ -113,6 +120,7 @@ namespace MVCWebUI.Controllers
 		// POST: Categories/Delete
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Admin")]
 		public IActionResult DeleteConfirmed(int id)
 		{
 			var result = _categoryService.Delete(id);
