@@ -1,8 +1,13 @@
 ﻿@*@model List<ProductModel>*@
 @model IEnumerable<ProductModel>
+@if(User.IsInRole("Admin"))
+{
 
-@*<a href="/Products/Create">Create New Products</a>*@
-@Html.ActionLink("Create New Product", "Create", "Products")
+	@*<a href="/Products/Create">Create New Products</a>*@
+	@Html.ActionLink("Create New Product", "Create", "Products")
+
+}
+
 
 @{
 	string title = "Products";
@@ -84,13 +89,20 @@
 					@Html.Raw(product.StoreNamesDisplay)
 				</th>
 				<td>
-					<a asp-action="Details" asp-route-id="@product.Id">Details</a>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<a asp-action="Details" asp-route-id="@product.Id">Details</a>
+						@if (User.IsInRole("Admin"))
+						{
+							@:&nbsp;|&nbsp;
 
-					@*@Html.ActionLink("Edit", "Edit", new { id = product.Id })*@
-					<a asp-action="Edit" asp-route-id="@product.Id">Edit</a>
-
-					@*<a asp-action="Delete" asp-route-id="@product.Id">Delete</a>*@
-					<a href="#" onclick="deleteProduct(@product.Id);">Delete</a>
+							@*@Html.ActionLink("Edit", "Edit", new { id = product.Id })*@
+							<a asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+							@:&nbsp;|&nbsp;
+							@*<a asp-action="Delete" asp-route-id="@product.Id">Delete</a>*@
+							<a href="#" onclick="deleteProduct(@product.Id);">Delete</a>
+						}
+					}
 				</td>
 			</tr>
 		}

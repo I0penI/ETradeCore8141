@@ -22,12 +22,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
                         </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
                         </li>
+                        @if (User.IsInRole("Admin"))
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Stores" asp-action="Index">Stores</a>
                         </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-warning" asp-area="Db" asp-controller="Home" asp-action="Index">Seed Database</a>
                         </li>
