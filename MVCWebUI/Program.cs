@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Business.Services;
+using Business.Services.Report;
 using DataAccess.Contexts;
 using DataAccess.Repostitories;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -58,6 +59,8 @@ builder.Services.AddScoped<IStoreService, StoreService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddScoped<IReportService, ReportService>();
 
 #endregion
 

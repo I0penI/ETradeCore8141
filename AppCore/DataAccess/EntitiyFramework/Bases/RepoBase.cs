@@ -32,6 +32,11 @@ namespace AppCore.DataAccess.EntitiyFramework.Bases
             return Query(entitiesToInclude).Where(predicate);
         }
 
+        public virtual IQueryable<TRelationalEntity> Query<TRelationalEntity>() where TRelationalEntity : class, new()
+        {
+            return _dbContext.Set<TRelationalEntity>().AsQueryable();
+        }
+
         public virtual bool Exists(Expression<Func<TEntity, bool>> predicate)
         {
             return Query().Any(predicate);
@@ -91,7 +96,7 @@ namespace AppCore.DataAccess.EntitiyFramework.Bases
 
         public virtual void Delete<TRelationalEntity>(Expression<Func<TRelationalEntity, bool>> predicate, bool save = false)where TRelationalEntity : class, new()
         {
-            var relationalEntities =  _dbContext.Set<TRelationalEntity>().Where(predicate).ToList();
+            var relationalEntities =  Query<TRelationalEntity>().Where(predicate).ToList();
             _dbContext.Set<TRelationalEntity>().RemoveRange(relationalEntities);
             if (save)
                 Save();
