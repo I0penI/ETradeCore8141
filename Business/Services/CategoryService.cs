@@ -4,11 +4,13 @@ using AppCore.Results.Bases;
 using Business.Models;
 using DataAccess.Entities;
 using DataAccess.Repostitories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
     public interface ICategoryService : IService<CategoryModel>
     {
+        Task<List<CategoryModel>> GetListAsync();
 
     }
    
@@ -54,7 +56,13 @@ namespace Business.Services
            _categoryRepo.Dispose();
         }
 
-        public IQueryable<CategoryModel> Query()
+		public async Task<List<CategoryModel>> GetListAsync()
+		{
+            List<CategoryModel> categories = await Query().ToListAsync();
+            return categories;
+		}
+
+		public IQueryable<CategoryModel> Query()
         {
             return _categoryRepo.Query(c => c.Products).OrderBy(c => c.Name).Select(c => new CategoryModel()
             {

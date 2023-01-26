@@ -36,6 +36,9 @@ namespace Business.Models.Report
 
 		#region Filters
 		public int? CategoryId { get; set; }
+		public int? StoreId { get; set; }
+
+		public DateTime? ExpirationDateValue { get; set; }
 		#endregion
 	}
 

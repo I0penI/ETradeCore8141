@@ -14,17 +14,20 @@ namespace MVCWebUI.Areas.Report.Controllers
     {
         private readonly IReportService _reportService;
         private readonly ICategoryService _categoryService;
+        private readonly IStoreService _storeService;
 
-		public HomeController(IReportService reportService, ICategoryService categoryService)
+		public HomeController(IReportService reportService, ICategoryService categoryService, IStoreService storeService)
 		{
 			_reportService = reportService;
 			_categoryService = categoryService;
+			_storeService = storeService;
 		}
 
 		public IActionResult Index(HomeIndexViewModel viewModel)
         {
-            viewModel.Report = _reportService.GetReport(viewModel.Filter,true);
+            viewModel.Report = _reportService.GetReport(viewModel.Filter);
             viewModel.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name");
+            viewModel.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name");
 			return View(viewModel);
         }
     }
