@@ -40,6 +40,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 	});
 #endregion
 
+#region Session
+builder.Services.AddSession(config =>
+{
+	config.IdleTimeout = TimeSpan.FromMinutes(40); // default: 20 dakika
+	config.IOTimeout = Timeout.InfiniteTimeSpan;
+});
+#endregion
+
+
+
 #region IoC Container (Inversion of Control)
 // Autofac, Ninject
 var connectionString = builder.Configuration.GetConnectionString("ETradeDb");
@@ -93,6 +103,12 @@ app.UseAuthentication();
 #endregion
 
 app.UseAuthorization(); // yetki kontrolü
+
+
+#region Session
+app.UseSession();
+#endregion
+
 
 app.UseEndpoints(endpoints =>
 {

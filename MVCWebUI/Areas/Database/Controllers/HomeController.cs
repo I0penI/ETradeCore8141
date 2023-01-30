@@ -30,7 +30,7 @@ namespace MVCWebUI.Areas.Database.Controllers
 				var roles = _db.Roles.ToList();
 				_db.Roles.RemoveRange(roles);
 
-				if(roles.Count > 0)
+				if (roles.Count > 0)
 				{
 					_db.Database.ExecuteSqlRaw("dbcc CHECKIDENT('Roles', RESEED, 0 )");//rol tabllosundaki kayıtlar silinince id 1 den başlar
 				}
@@ -40,37 +40,37 @@ namespace MVCWebUI.Areas.Database.Controllers
 					Name = "Computer",
 					Description = "Laptops, desktops and computer peripherals",
 					Products = new List<Product>()
-				{
-					new Product()
 					{
-						Name = "Laptop",
-						UnitPrice = 3000,
-						ExpirationDate = new DateTime(2032, 1, 27),
-						StockAmount = 10
-					},
-					new Product()
-					{
-						Name = "Mouse",
-						UnitPrice = 20.5,
-						StockAmount = 50,
-						Description = "Computer peripheral"
-					},
-					new Product()
-					{
-						Name = "Keyboard",
-						UnitPrice = 40,
-						StockAmount = 45,
-						Description = "Computer peripheral"
-					},
-					new Product()
-					{
-						Name = "Monitor",
-						UnitPrice = 2500,
-						ExpirationDate = DateTime.Parse("05/19/2023"),
-						StockAmount = 20,
-						Description = "Computer peripheral"
+						new Product()
+						{
+							Name = "Laptop",
+							UnitPrice = 3000,
+							ExpirationDate = new DateTime(2032, 1, 27),
+							StockAmount = 10
+						},
+						new Product()
+						{
+							Name = "Mouse",
+							UnitPrice = 20.5,
+							StockAmount = 50,
+							Description = "Computer peripheral"
+						},
+						new Product()
+						{
+							Name = "Keyboard",
+							UnitPrice = 40,
+							StockAmount = 45,
+							Description = "Computer peripheral"
+						},
+						new Product()
+						{
+							Name = "Monitor",
+							UnitPrice = 2500,
+							ExpirationDate = DateTime.Parse("05/19/2023"),
+							StockAmount = 20,
+							Description = "Computer peripheral"
+						}
 					}
-				}
 				});
 
 				_db.Categories.Add(new Category()

@@ -89,9 +89,17 @@
 					@Html.Raw(product.StoreNamesDisplay)
 				</th>
 				<td>
+					
 					@if (User.Identity.IsAuthenticated)
 					{
 						<a asp-action="Details" asp-route-id="@product.Id">Details</a>
+
+						@if (User.IsInRole("User"))
+						{
+							@:&nbsp;|&nbsp;
+							<a asp-action="AddToCart" asp-controller="Cart" asp-route-productId="@product.Id">Add to Cart</a>
+						}
+
 						@if (User.IsInRole("Admin"))
 						{
 							@:&nbsp;|&nbsp;
@@ -101,6 +109,7 @@
 							@:&nbsp;|&nbsp;
 							@*<a asp-action="Delete" asp-route-id="@product.Id">Delete</a>*@
 							<a href="#" onclick="deleteProduct(@product.Id);">Delete</a>
+
 						}
 					}
 				</td>

@@ -33,6 +33,9 @@ namespace Business.Services
                 return new ErrorResult("Invalid username and password");
             userResultModel.UserName = existingUser.UserName;
             userResultModel.RoleName = existingUser.RoleName;
+
+            userResultModel.Id = existingUser.Id;
+
             return new SuccessResult();
             
 
