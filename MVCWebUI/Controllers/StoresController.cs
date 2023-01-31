@@ -73,7 +73,7 @@ namespace MVCWebUI.Controllers
 			StoreModel store = _storeService.Query().SingleOrDefault(s => s.Id == id); // TODO: Add get item service logic here
 			if (store == null)
 			{
-				return View("__rror" , "Store Not Found");
+				return View("_Error" , "Store Not Found!");
 			}
 			// Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
 			return View(store);
@@ -103,7 +103,7 @@ namespace MVCWebUI.Controllers
 			StoreModel store = _storeService.Query().SingleOrDefault(s => s.Id == id); // TODO: Add get item service logic here
 			if (store == null)
 			{
-				return View("_Error", "Store Not Found");
+				return View("_Error", "Store Not Found!");
 			}
 			return View(store);
 		}
