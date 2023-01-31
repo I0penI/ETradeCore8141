@@ -12,13 +12,15 @@ namespace MVCWebUI.Areas.Account.Controllers
 	public class UsersController : Controller
 	{
 		private readonly IAccountService _accountService;
+		private readonly ICountryService _countryService;
 
-		public UsersController(IAccountService accountService)
-		{
-			_accountService = accountService;
-		}
+        public UsersController(IAccountService accountService, ICountryService countryService)
+        {
+            _accountService = accountService;
+            _countryService = countryService;
+        }
 
-		public IActionResult Register()
+        public IActionResult Register()
 		{
 			return View();
 		}

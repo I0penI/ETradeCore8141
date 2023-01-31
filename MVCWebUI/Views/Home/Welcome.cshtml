@@ -2,10 +2,10 @@
     <h1 class="display-4">Welcome</h1>
     @if (User.Identity.IsAuthenticated)
     {
-        <p>Welcome To ETrade @User.Identity.Name.</p>
+        <p>Welcome To @AppSettings.Title @User.Identity.Name.</p>
     }
     else
     {
-    <p>Welcome to ETrade.</p>
+    <p>Welcome to @AppSettings.Title.</p>
     }
 </div>

@@ -48,6 +48,12 @@ builder.Services.AddSession(config =>
 });
 #endregion
 
+#region AppSettings
+//var section = builder.Configuration.GetSection("AppSettings");
+var section = builder.Configuration.GetSection(nameof(AppSettings));
+section.Bind(new AppSettings());
+#endregion
+
 
 
 #region IoC Container (Inversion of Control)
@@ -61,15 +67,21 @@ builder.Services.AddScoped<ProductRepoBase, ProductRepo>(); // önemli
 builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>();
 builder.Services.AddScoped<StoreRepoBase, StoreRepo>();
 
+
+builder.Services.AddScoped<CountryRepoBase, CountryRepo>();
+builder.Services.AddScoped<CityRepoBase, CityRepo>();
+
+
 builder.Services.AddScoped<UserRepoBase, UserRepo>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<ICityService, CityService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-
+builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
 #endregion
