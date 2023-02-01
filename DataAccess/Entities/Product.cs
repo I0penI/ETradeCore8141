@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AppCore.Records.Bases;
 
 namespace DataAccess.Entities
@@ -25,5 +26,10 @@ namespace DataAccess.Entities
 
         public List<ProductStore> ProductStores { get; set; }
 
+        [Column(TypeName = "image")]
+        public byte[] Image { get; set; }
+
+        [StringLength(5)]
+        public string ImageExtension { get; set; }
     }
 }

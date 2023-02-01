@@ -2,7 +2,9 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AppCore.Records.Bases;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Business.Models
 {
@@ -51,6 +53,13 @@ namespace Business.Models
         [DisplayName("Category")]
         [Required(ErrorMessage = "{0} required!")]
         public int? CategoryId { get; set; }
+
+
+		public byte[] Image { get; set; }
+
+		[StringLength(5, ErrorMessage = "{0} must be max {1} characters!")]
+		public string ImageExtension { get; set; }
+
 		#endregion
 
 		#region Entitiy Dışındaki Özelleştirmeler
@@ -69,6 +78,9 @@ namespace Business.Models
 
         [DisplayName("Stores")]
         public string StoreNamesDisplay { get; set; }
+
+        [DisplayName("Image")]
+        public string ImgSrcDisplay { get; set; }
         #endregion
     }
 }

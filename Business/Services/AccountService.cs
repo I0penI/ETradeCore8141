@@ -49,7 +49,17 @@ namespace Business.Services
                 IsActive = true,
                 Password = accountRegisterModel.Password,
                 UserName= accountRegisterModel.UserName,
-                RoleId = (int)Roles.User
+                RoleId = (int)Roles.User,
+                UserDetail = new UserDetailModel()
+                {
+                    Address = accountRegisterModel.UserDetail.Address,
+                    Email = accountRegisterModel.UserDetail.Email,
+                    Sex = accountRegisterModel.UserDetail.Sex,
+                    CityId = accountRegisterModel.UserDetail.CityId,
+                    CountryId = accountRegisterModel.UserDetail.CountryId
+                    
+                }
+
             };
             return _userService.Add(userModel);
         }

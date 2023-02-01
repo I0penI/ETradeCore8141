@@ -56,7 +56,11 @@ namespace Business.Services
                 ProductStores = model.StoreIds?.Select(sId => new ProductStore()
                 {
                     StoreId = sId,
-                }).ToList()
+                }).ToList(),
+
+                Image = model.Image,
+                ImageExtension= model.ImageExtension?.ToLower()
+
             };
             _repo.Add(entity);
             return new SuccessResult("Product added successfully.");
@@ -97,7 +101,16 @@ namespace Business.Services
 
                 StoreIds = p.ProductStores.Select(ps => ps.StoreId).ToList(),
 
-                StoreNamesDisplay = string.Join("<br />", p.ProductStores.Select(ps => ps.Store.Name))
+                StoreNamesDisplay = string.Join("<br />", p.ProductStores.Select(ps => ps.Store.Name)),
+
+                Image = p.Image,
+                ImageExtension = p.ImageExtension,
+
+                ImgSrcDisplay = p.Image != null ? 
+                    (
+                        p.ImageExtension == ".jpg" || p.ImageExtension == ".jpeg" ? "data:image/jpeg;base64," : "data:image/png;base64,"   
+                    ) + Convert.ToBase64String(p.Image) : null
+
             });
 
         }
@@ -126,6 +139,19 @@ namespace Business.Services
                 }).ToList(),
                 
 			};
+
+            if (model.Image != null)
+            {
+                entity.Image = model.Image;
+                entity.ImageExtension = model.ImageExtension.ToLower();
+            }
+            else
+            {
+                Product existingEntity = _repo.Query().SingleOrDefault(p => p.Id == model.Id);
+                entity.Image = existingEntity.Image;
+                entity.ImageExtension = existingEntity.ImageExtension;
+            }
+
             _repo.Update(entity); 
             return new SuccessResult("Product updated successfully");
 		}

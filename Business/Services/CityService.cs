@@ -7,7 +7,7 @@ namespace Business.Services
 {
     public interface ICityService : IService<CityModel>
     {
-
+        List<CityModel> GetCities(int countryId);
     }
     public class CityService : ICityService
     {
@@ -31,6 +31,11 @@ namespace Business.Services
         public void Dispose()
         {
             _cityRepo.Dispose();
+        }
+
+        public List<CityModel> GetCities(int countryId)
+        {
+            return Query().Where(c => c.CountryId == countryId).ToList();
         }
 
         public IQueryable<CityModel> Query()

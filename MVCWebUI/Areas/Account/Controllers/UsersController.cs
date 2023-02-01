@@ -4,6 +4,7 @@ using Business.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Identity.Client;
 
 namespace MVCWebUI.Areas.Account.Controllers
@@ -13,15 +14,18 @@ namespace MVCWebUI.Areas.Account.Controllers
 	{
 		private readonly IAccountService _accountService;
 		private readonly ICountryService _countryService;
+		private readonly ICityService _cityService;
 
-        public UsersController(IAccountService accountService, ICountryService countryService)
-        {
-            _accountService = accountService;
-            _countryService = countryService;
-        }
-
-        public IActionResult Register()
+		public UsersController(IAccountService accountService, ICountryService countryService, ICityService cityService)
 		{
+			_accountService = accountService;
+			_countryService = countryService;
+			_cityService = cityService;
+		}
+
+		public IActionResult Register()
+		{
+			ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
 			return View();
 		}
 
@@ -36,6 +40,8 @@ namespace MVCWebUI.Areas.Account.Controllers
 					return RedirectToAction("Login");
 				ModelState.AddModelError("", result.Message);
 			}
+			ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name", model.UserDetail.CountryId);
+			ViewBag.Cities = new SelectList(_cityService.GetCities(model.UserDetail.CountryId ?? 0), "Id", "Name");
 			return View();
 		}
 		public IActionResult Login()

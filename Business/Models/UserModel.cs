@@ -22,6 +22,7 @@ namespace Business.Models
         #endregion
 
         public string RoleName { get; set; }
+		public UserDetailModel UserDetail { get; set; }
 
-    }
+	}
 }

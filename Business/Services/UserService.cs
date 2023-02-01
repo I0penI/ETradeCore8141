@@ -30,6 +30,15 @@ namespace Business.Services
                 Password = model.Password,
                 IsActive = model.IsActive,
                 RoleId = model.RoleId,
+                UserDetail = new UserDetail()
+                {
+					Address = model.UserDetail.Address.Trim(),
+					Email = model.UserDetail.Email.Trim(),
+					Sex = model.UserDetail.Sex,
+					CityId = model.UserDetail.CityId ?? 0,
+					CountryId = model.UserDetail.CountryId.Value
+                    
+				}
                 
             };
             _userRepo.Add(entity);
