@@ -54,8 +54,11 @@
 				@*Category*@
 				@Html.DisplayNameFor(model => model.StoreNamesDisplay)
 			</th>
+			<th style="width:12%;">
+				@Html.DisplayNameFor(model => model.ImgSrcDisplay)
+			</th>
 			<th>
-
+			
 			</th>
 		</tr>
 	</thead>
@@ -84,10 +87,16 @@
 					@*@product.CategoryNameDisplay*@
 					@Html.DisplayFor(model => product.CategoryNameDisplay)
 				</td>
-				<th>
+				<td>
 					@*Category*@
 					@Html.Raw(product.StoreNamesDisplay)
-				</th>
+				</td>
+				<td>
+					@if(product.ImgSrcDisplay is not null)
+					{
+						<img src="@product.ImgSrcDisplay" class="img-thumbnail" />
+					}
+				</td>
 				<td>
 					
 					@if (User.Identity.IsAuthenticated)

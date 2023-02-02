@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using AppCore.Records.Bases;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -54,7 +55,7 @@ namespace Business.Models
         [Required(ErrorMessage = "{0} required!")]
         public int? CategoryId { get; set; }
 
-
+        [JsonIgnore]
 		public byte[] Image { get; set; }
 
 		[StringLength(5, ErrorMessage = "{0} must be max {1} characters!")]

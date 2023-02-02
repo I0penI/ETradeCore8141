@@ -10,7 +10,7 @@ namespace Business.Services
 
     public interface IProductService : IService<ProductModel>
     {
-
+        Result DeleteImage(int id);
     }
     public class ProductService : IProductService
     {
@@ -63,6 +63,7 @@ namespace Business.Services
 
             };
             _repo.Add(entity);
+            model.Id = entity.Id;
             return new SuccessResult("Product added successfully.");
         }
 
@@ -75,7 +76,16 @@ namespace Business.Services
             return new SuccessResult("Protuct deleted successfully.");
         }
 
-        public void Dispose()
+		public Result DeleteImage(int id)
+		{
+			var entity = _repo.Query(p => p.Id == id).SingleOrDefault();
+            entity.Image = null;
+            entity.ImageExtension = null;
+            _repo.Update(entity);
+            return new SuccessResult("Product Image Deleted Successfully.");
+		}
+
+		public void Dispose()
         {
             _repo.Dispose();
         }
@@ -123,34 +133,28 @@ namespace Business.Services
 
             _repo.Delete<ProductStore>(ps => ps.ProductId == model.Id);
 
-			Product entity = new Product()
-			{
-                Id = model.Id,
-				CategoryId = model.CategoryId.Value,
-				Description = model.Description?.Trim(),
-				ExpirationDate = model.ExpirationDate,
-				Name = model.Name.Trim(),
-				StockAmount = model.StockAmount.Value,
-				UnitPrice = model.UnitPrice.Value,
+            Product entity = _repo.Query().SingleOrDefault(p => p.Id == model.Id);
 
-                ProductStores = model.StoreIds?.Select(sId => new ProductStore()
-                {
-                    StoreId = sId
-                }).ToList(),
+            entity.CategoryId = model.CategoryId.Value;
+            entity.Description = model.Description?.Trim();
+            entity.ExpirationDate = model.ExpirationDate;
+            entity.Name = model.Name.Trim();
+				entity.StockAmount = model.StockAmount.Value;
+            entity.UnitPrice = model.UnitPrice.Value;
+
+            entity.ProductStores = model.StoreIds?.Select(sId => new ProductStore()
+            {
+                StoreId = sId
+            }).ToList();
                 
-			};
+			
 
             if (model.Image != null)
             {
                 entity.Image = model.Image;
                 entity.ImageExtension = model.ImageExtension.ToLower();
             }
-            else
-            {
-                Product existingEntity = _repo.Query().SingleOrDefault(p => p.Id == model.Id);
-                entity.Image = existingEntity.Image;
-                entity.ImageExtension = existingEntity.ImageExtension;
-            }
+           
 
             _repo.Update(entity); 
             return new SuccessResult("Product updated successfully");
